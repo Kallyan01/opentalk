@@ -2,12 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   name: "",
-  joindate: "",
   activedate: "",
   msgs: [],
-  userid: "",
-  authcode: "",
-  password: "",
+  _id: "",
   linkvisits: 0,
 };
 
@@ -15,8 +12,8 @@ const userSlice = createSlice({
   name: "userdetails",
   initialState,
   reducers: {
-    setUser: (state, action) => {
-      return { ...state,...action.payload };
+    saveUser: (state, action) => {
+      return {...action.payload };
     },
     clearUser: (state) => {
       return initialState;
@@ -25,4 +22,4 @@ const userSlice = createSlice({
 });
 
 export default userSlice.reducer;
-export const {setUser,clearUser} = userSlice.actions;
+export const {saveUser,clearUser} = userSlice.actions;

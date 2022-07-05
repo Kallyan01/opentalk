@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-const GetMessages=async(url)=>{
+const getUser=async(url)=>{
     const data = await axios.get(url);
     return data;
 }
 
-export default GetMessages;
+export default getUser;
