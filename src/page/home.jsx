@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { saveUser } from "../store/features/user";
 import coreimg from "../asset/img2.png";
 import {useNavigate} from 'react-router-dom'
-import loader from "../asset/loaders/Dual_Ring.svg"
+import { setLoader } from "../store/features/siteControll";
 function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
