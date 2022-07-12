@@ -2,7 +2,12 @@ import { createSlice } from "@reduxjs/toolkit/";
 const initialState = {
     navBar : false,
     theme : 'light',
-    loader: true
+    loader: true,
+    notification:{
+        msg: ' ',
+        tout: 1000,
+        vis: false
+    }
 }
 
 const auth = createSlice({
@@ -17,9 +22,17 @@ const auth = createSlice({
         },
         setLoader :(state,action)=>{
             return {...state,loader: action.payload}
+        },
+        setNoti :(state,action)=>{
+            return {...state,notification:{
+                msg: action.payload.msg,
+                tout: action.payload.tout,
+                vis:  action.payload.vis
+            }
+            }
         }
     }
 })
 
 export default auth.reducer
-export const{setNav,setTheme,setLoader} = auth.actions
+export const{setNav,setTheme,setLoader,setNoti} = auth.actions

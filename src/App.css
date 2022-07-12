@@ -2,5 +2,18 @@
 .msglist
 {
     overflow-y: scroll;
-    height: 70vh;
+    height: 40vh;
+}
+.shareLink input
+{
+outline: none;
+border: none;
+}
+.qnotimask 
+{
+    transition: all ease-in-out;
+}
+.qnoti
+{
+    /* width: 30px; */
 }
