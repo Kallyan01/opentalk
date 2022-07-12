@@ -6,7 +6,7 @@ import Sidebar from "../components/site/Sidebar";
 
 function Layout() {
   return (
-    <div className="layout flex flex-col ">
+    <div className="layout flex flex-col">
      <Navbar/>
      <Sidebar/>
       <div className="body flex w-full">
@@ -18,7 +18,7 @@ function Layout() {
             <p className="uppercase font-bold text-3xl">Welcome To OpenTalk</p>
           </div>
         </div>
-        <div className="right w-full md:w-1/2  mt-12">
+        <div className="right w-full md:w-1/2">
           <Outlet />
         </div>
       </div>

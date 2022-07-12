@@ -7,8 +7,10 @@ import { useDispatch } from "react-redux";
 import { saveUser } from "../store/features/user";
 import coreimg from "../asset/img2.png";
 import {useNavigate} from 'react-router-dom'
-import loader from "../asset/loaders/Dual_Ring.svg"
+import { setLoader } from "../store/features/siteControll";
+
 function Home() {
+  const userauthdata = JSON.parse(window.localStorage.getItem("opentalk"));
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [User, setUser] = useState({
@@ -23,12 +25,13 @@ function Home() {
       longitude: "",
     },
   });
-
   useEffect(() => {
+    if(userauthdata) navigate('/dashboard')
     axios.get("https://geolocation-db.com/json/").then((data) => {
       setUser({ ...User, ip: data.data.IPv4 });
     });
     getLocation();
+    dispatch(setLoader(false))
   }, []);
   function getLocation() {
     if (navigator.geolocation) {
@@ -52,22 +55,22 @@ function Home() {
 
   const handleCreate = async (event) => {
     event.preventDefault();
-    createUser("http://localhost:5000/user/create", User)
+    createUser(`${process.env.REACT_APP_API_URL}/user/create`, User)
     .then((data) => {
       dispatch(saveUser({ ...data.data }));
       localStorage.setItem("opentalk", JSON.stringify({
         _id : data.data._id,
         authcode : data.data.authcode
       }));
+      dispatch(setLoader(true))
       navigate('/dashboard')
       })
       .catch((err) => console.log(err));
   };
-
   return (
     <div className="text-violate w-full h-screen flex justify-center align-middle flex-col">
       <img src={coreimg} className="mx-auto md:hidden" height="40%" width="100%" alt="" />
-      <p className="text-5xl font-semibold px-10">What's Your Name ?</p>
+      <p className="text-4xl font-semibold px-10">What's Your Name ?</p>
       <form className="px-10 flex flex-col" onSubmit={createUser}>
         <div className="textBox my-4">
         <input className="impBox w-full" type="text" value={User.name} placeholder="Enter Your Name" onChange={(e)=>setUser({...User,name:e.target.value})} />

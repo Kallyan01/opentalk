@@ -1,20 +1,24 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
 import coreimg from "../asset/img2.png";
 import { useParams } from "react-router-dom";
 import getUser from "../API/getAPI/getUser";
-import Loader from "../components/site/loader"
+import Loader from "../components/site/loader";
+import { setLoader } from "../store/features/siteControll";
+import setNoti from "../store/features/siteControll"
 
 function Msgbox() {
-  const {_id} = useParams()
-  console.log(_id)
+  const dispatch = useDispatch();
+  const { _id } = useParams();
+  console.log(_id);
   const createUser = () => {
     return true;
   };
-  const [User,setUser]=useState({
-    name:''
-  })
+  const [User, setUser] = useState({
+    name: "",
+  });
   const [Msg, setMsg] = useState({
     text: "",
     ip: "",
@@ -23,15 +27,17 @@ function Msgbox() {
       longitude: "",
     },
   });
-  const [delivarySts,setDelivarySts] = useState(false)
-useEffect(()=>{
-  axios.get(`http://localhost:5000/getuser/${_id}`)
-  .then((data)=>{
-    console.log(data.data)
-    setUser({name:data.data.username})
-  })
-  .catch(err=>console.log(err))
-},[])
+  const [delivarySts, setDelivarySts] = useState(false);
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/getuser/${_id}`)
+      .then((data) => {
+        console.log(data.data);
+        setUser({ name: data.data.username });
+        dispatch(setLoader(false));
+      })
+      .catch((err) => console.log(err));
+  }, []);
   useEffect(() => {
     axios.get("https://geolocation-db.com/json/").then((data) => {
       setMsg({ ...Msg, ip: data.data.IPv4 });
@@ -53,8 +59,8 @@ useEffect(()=>{
       ...Msg,
       location: {
         latitude: position.coords.latitude,
-        longitude: position.coords.longitude
-      }
+        longitude: position.coords.longitude,
+      },
     });
   }
 
@@ -70,21 +76,28 @@ useEffect(()=>{
 
   async function sendMsg(event) {
     event.preventDefault();
-    let url = `http://localhost:5000/user/${_id}/sentmsg`;
+    let url = `${process.env.REACT_APP_API_URL}/user/${_id}/sentmsg`;
     let bodyContent = {
       msgs: Msg,
     };
     axios
       .post(url, bodyContent)
       .then((data) => {
-        setDelivarySts(true)
-        setMsg({...Msg,text:''});
+        setDelivarySts(true);
+        dispatch(
+          setNoti({
+            msg: "Message Sent",
+            tout: 1000,
+            vis: true,
+          })
+        );
+        setMsg({ ...Msg, text: "" });
       })
       .catch((err) => console.log(err));
   }
   return (
-    <div className="text-violate w-full h-screen flex align-middle flex-col pt-5">
-      <Loader status={true}/>
+    <div className="text-violate w-full h-screen flex align-middle flex-col pt-5 mt-20">
+      <Loader status={true} />
       {delivarySts && (
         <div className="text-violate w-full flex justify-center align-middle flex-col">
           <p className="text-3xl font-semibold px-10">What's Your Name ?</p>
@@ -95,6 +108,7 @@ useEffect(()=>{
                 type="text"
                 value=""
                 placeholder="Enter Your Name"
+                required
               />
             </div>
             <div className="startBtn">
@@ -114,15 +128,18 @@ useEffect(()=>{
             className="parabox w-full"
             rows="8"
             value={Msg.text}
-            onChange={(e) => setMsg({...Msg, text:e.target.value})}
+            onChange={(e) => setMsg({ ...Msg, text: e.target.value })}
           ></textarea>
           <p className="absolute bottom-2 right-2">{Msg.text.length}/1000</p>
         </div>
-        <span>We ensure you , that {User.name} will naver know who you are </span>
+        <span>
+          We ensure you , that {User.name} will naver know who you are{" "}
+        </span>
         <input
           type="submit"
           className="btn bg-violate text-white"
           value="Send The Secret Message"
+          required
         />
       </form>
     </div>
