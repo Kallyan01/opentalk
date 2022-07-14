@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import getUser from "../API/getAPI/getUser";
 import Loader from "../components/site/loader";
 import { setLoader } from "../store/features/siteControll";
-import setNoti from "../store/features/siteControll"
+import {setNoti} from "../store/features/siteControll"
 
 function Msgbox() {
   const dispatch = useDispatch();
@@ -43,6 +43,9 @@ function Msgbox() {
       setMsg({ ...Msg, ip: data.data.IPv4 });
     });
     getLocation();
+    axios.get(`${process.env.REACT_APP_API_URL}/linkview/inc/${_id}`)
+    .then(data=>console.log(data))
+    .catch(err=> console.log(err))
   }, []);
   function getLocation() {
     if (navigator.geolocation) {
@@ -73,7 +76,6 @@ function Msgbox() {
   //     })
   //     .catch((err) => console.log(err));
   // };
-
   async function sendMsg(event) {
     event.preventDefault();
     let url = `${process.env.REACT_APP_API_URL}/user/${_id}/sentmsg`;
@@ -89,14 +91,13 @@ function Msgbox() {
             msg: "Message Sent",
             tout: 1000,
             vis: true,
-          })
-        );
-        setMsg({ ...Msg, text: "" });
-      })
-      .catch((err) => console.log(err));
-  }
+          }))
+          setMsg({ ...Msg, text: "" });
+        })
+        .catch((err) => console.log(err));
+      }
   return (
-    <div className="text-violate w-full h-screen flex align-middle flex-col pt-5 mt-20">
+    <div className="text-violate w-full h-screen flex align-middle flex-col pt-5 my-10">
       <Loader status={true} />
       {delivarySts && (
         <div className="text-violate w-full flex justify-center align-middle flex-col">

@@ -4,6 +4,7 @@ import Layout from "../layout/Layout";
 import Home from "../page/home";
 import Messagebox from "../page/msgbox"
 import Dashboard from "../page/auth/dashboard";
+import Userpage from "../page/auth/userpage";
 
 function MainRoute() {
   return (
@@ -13,6 +14,7 @@ function MainRoute() {
         <Route path="home" element={<Home />} />
         <Route path="sendmsg/:_id" element={<Messagebox />} />
         <Route path="dashboard" element={<Dashboard />} />
+        <Route path="user" element={<Userpage />} />
       </Route>
     </Routes>
   );

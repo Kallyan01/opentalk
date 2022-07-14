@@ -25,7 +25,11 @@ function Home() {
     },
   });
   useEffect(() => {
-    if(userauthdata) navigate('/dashboard')
+    if(userauthdata)
+    {
+
+      navigate('/dashboard')
+    } 
     axios.get("https://geolocation-db.com/json/").then((data) => {
       setUser({ ...User, ip: data.data.IPv4 });
     });
@@ -53,6 +57,7 @@ function Home() {
   }
 
   const handleCreate = async (event) => {
+    dispatch(setLoader(true))
     event.preventDefault();
     createUser(`${process.env.REACT_APP_API_URL}/user/create`, User)
     .then((data) => {
@@ -61,10 +66,14 @@ function Home() {
         _id : data.data._id,
         authcode : data.data.authcode
       }));
-      dispatch(setLoader(true))
       navigate('/dashboard')
       })
-      .catch((err) => console.log(err));
+      .catch((err) =>
+      { 
+        dispatch(setLoader(false))
+        console.log(err)
+      }
+      )
   };
   return (
     <div className="text-violate w-full h-screen flex justify-center align-middle flex-col">

@@ -6,7 +6,7 @@ import Sidebar from "../components/site/Sidebar";
 
 function Layout() {
   return (
-    <div className="layout flex flex-col">
+    <div className="layout flex flex-col h-screen">
      <Navbar/>
      <Sidebar/>
       <div className="body flex w-full">

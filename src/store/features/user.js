@@ -6,6 +6,7 @@ const initialState = {
   msgs: [],
   _id: "",
   linkvisits: 0,
+  password: ""
 };
 
 const userSlice = createSlice({
