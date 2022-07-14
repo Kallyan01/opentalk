@@ -10,7 +10,7 @@ function Sendmsg() {
     let bodyContent = {
       "msg": Msg,
     };
-    let url = "http://localhost:5000/user/62a720a397fd379e630c43bd/sentmsg";
+    let url = `${process.env.REACT_APP_API_URL}/user/62a720a397fd379e630c43bd/sentmsg`;
     
     
       axios.post(url,bodyContent)

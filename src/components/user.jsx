@@ -9,7 +9,7 @@ function User() {
   });
   useEffect(() => {
    async function getData(){
-    let data = await axios.get("http://localhost:5000/user/62a720a397fd379e630c43bd")
+    let data = await axios.get(`${process.env.REACT_APP_API_URL}/user/62a720a397fd379e630c43bd`)
     let user = data.data[0]
     setUser({...user})
    }
