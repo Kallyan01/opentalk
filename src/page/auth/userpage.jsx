@@ -4,11 +4,16 @@ import { setLoader } from '../../store/features/siteControll'
 import { saveUser } from '../../store/features/user'
 import { useNavigate } from 'react-router-dom'
 import getUser from '../../API/getAPI/getUser'
+import { useState } from 'react'
 function Userpage() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const uid = useSelector((state)=>state.userdet._id)
     const upass = useSelector((state)=>state.userdet.password)
+    const [Showpass,setShowpass] = useState(false)
+    const handleshowpass =()=>{
+      setShowpass(!Showpass)
+    }
     useEffect(() => {
         const userauthdata = JSON.parse(window.localStorage.getItem("opentalk"));
         if (userauthdata && uid.length===0) {
@@ -41,10 +46,19 @@ function Userpage() {
     
  
   return (
-    <div className="text-violate w-full h-screen flex justify-center align-middle flex-col">
-      <h2>Details</h2>
-      <p>UserID:{uid}</p>
-      <p>Password:{upass}</p>
+    <div className="text-violate px-10 w-full h-screen flex justify-center align-middle flex-col">
+      <form action="">
+        <label className='flex flex-col'>User Id
+        <input  className='impBox w-full' type="text" name="UserId" value={uid} disabled/>
+        </label>
+        <label className='flex flex-col '>Password
+        <div className="passfield relative flex items-center">
+        <input className='impBox w-full' type={Showpass?'text':'password'} name="Password" value={upass} disabled/>
+        {Showpass && <p onClick={handleshowpass} className='absolute right-0 px-2'>Hide</p>}
+        {!Showpass&& <p onClick={handleshowpass} className='absolute right-0 px-2'>Show</p>}
+        </div>
+        </label>
+      </form>
     </div>
   )
 }

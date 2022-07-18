@@ -9,6 +9,8 @@ import { setLoader } from "../../store/features/siteControll";
 import { setNoti } from "../../store/features/siteControll";
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { FaFacebook,FaWhatsapp,FaTwitter } from "react-icons/fa";
+import {RiRefreshLine} from "react-icons/ri";
+
 
 function Dashboard() {
   const urlAreaRef = useRef();
@@ -52,14 +54,13 @@ function Dashboard() {
             }
           })
           .catch((err) => {
-            if (err.response.status === 500) {
-              console.log("under red");
+            if (err.response.status === 401) {
               window.localStorage.removeItem("opentalk");
               setTimeout(() => {
                 navigate("/home");
               }, 2000);
             }
-            console.log(err);
+            console.error(err);
           });
       };
       userdatafetch(
@@ -146,12 +147,12 @@ function Dashboard() {
       <div className="messages flex flex-col ">
         <div className="flex flex-row p-1">
           <p className="font-medium text-xl text-center">Messages</p>
-          <p
+          <p className="refrbtn flex justify-center items-center"
             onClick={() => {
               setRefresh(!refresh);
             }}
           >
-            refresh
+            <RiRefreshLine size={20} className='mx-2'/>
           </p>
         </div>
         <div className="msglist flex flex-col ">
