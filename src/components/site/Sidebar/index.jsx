@@ -10,6 +10,7 @@ import { resetUser } from "../../../store/features/user";
 function Sidebar() {
   const navigate = useNavigate()
   const auth = useSelector(state=> state.userdet.auth)
+  const userName = useSelector(state=>state.userdet.name)
   const dispatch = useDispatch();
   const nav = useSelector((state)=>state.sitecontrol.navBar)
   const handleClick=()=>{
@@ -22,16 +23,18 @@ function Sidebar() {
    navigate('/home')
   }
   return (
+    <div className={`w-full h-screen z-50 fixed top-0 ${
+      nav ? "-left-0" : "-left-full"
+    } transition-all duration-500 bottom-0`}>
     <ul
-      className={`sidebar z-40 w-3/4 md:w-1/4 h-screen py-5 px-2 flex flex-col justify-center items-center bg-slate-300 fixed top-0 ${
-        nav ? "-left-0" : "-left-3/4"
-      } transition-all duration-500 bottom-0`}
+      className={`sidebar z-40 w-3/4 md:w-1/4 h-screen py-5 px-2 flex flex-col justify-center items-center fixed top-0 bottom-0 bg-slate-100 bg-opacity-80 backdrop-blur-sm `}
     >
       <div className="absolute top-0 right-0 p-2">
         <IconContext.Provider value={{ color: "red", size: "25px" }}>
           <AiOutlineCloseCircle onClick={handleClick}/>
         </IconContext.Provider>
       </div>
+     {auth&& <h2 className="absolute top-12 left-0 right-0 text-center text-2xl"><span className="text-4xl font-medium">WELCOME</span><br/>{userName.toUpperCase()}</h2>}
       <NavLink to="/home">
         <li>Home</li>
       </NavLink>
@@ -54,6 +57,7 @@ function Sidebar() {
         </IconContext.Provider>
       </div>}
     </ul>
+    </div>
   );
 }
 

@@ -5,7 +5,7 @@ import "./App.css"
 import Qnoti from "./components/site/Qnoti"
 function App() {
   return (
-    <div className="App relative">
+    <div className="App light relative">
       <Qnoti/>
       <Loader/>
       <MainRoute/>

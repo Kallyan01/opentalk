@@ -49,7 +49,7 @@ function Dashboard() {
               setMessages([...user.data.msgs]);
               dispatch(setLoader(false));
               setSharelink(
-                `http://192.168.0.100:3000/sendmsg/${user.data._id}`
+                `${process.env.REACT_APP_API_URL}/sendmsg/${user.data._id}`
               );
             }
           })
@@ -87,7 +87,7 @@ function Dashboard() {
     <div className="dashboard p-5 mt-10 md:mt-auto">
       <div className="stats flex flex-row w-full justify-center align-middle bg-gray-light rounded-xl">
         <div className="linkClk flex flex-col w-1/2 justify-center align-middle p-5">
-          <div className="title font-medium text-xl text-center p-1">
+          <div className="title text-head font-medium text-xl text-center p-1">
             Linkvisits
           </div>
           <div className="value text-violate text-3xl font-semibold text-center p-4">
@@ -95,7 +95,7 @@ function Dashboard() {
           </div>
         </div>
         <div className="msgRec flex flex-col w-1/2 justify-center align-middle p-5">
-          <div className="title font-medium text-xl text-center p-1">
+          <div className="title text-head font-medium text-xl text-center p-1">
             Messages
           </div>
           <div className="value text-violate text-3xl font-semibold text-center p-4">
@@ -103,8 +103,8 @@ function Dashboard() {
           </div>
         </div>
       </div>
-      <div className="shareArea bg-gray-light rounded-xl my-2 flex flex-col justify-center items-center w-full p-5">
-        <div className="shareLink bg-slate-200 text-violate rounded-xl py-2 px-1 md:px-7 flex row w-full justify-between items-center">
+      <div className="shareArea bg-gray-light rounded-xl my-2 flex flex-col justify-center items-center w-full p-2">
+        <div className="shareLink bg-slate-200 text-violate rounded-xl py-1 px-1 md:px-7 flex row w-full justify-between items-center">
           <input
             className="bg-transparent w-full text-sm px-1"
             type="text"

@@ -11,13 +11,57 @@
 {
 background-color: #F9F9F9;
 }
-
-
-
-
 .text-violate {
   color: #6c63ff;
 }
+
+/* Dark-Light-Theme */
+
+/* Light-Theme */
+.light .text-head
+{
+  color: rgb(87, 87, 87);
+}
+.light .dashtab
+{
+  background-color: rgba(218, 218, 218, 0.729);
+}
+.light .icons
+{
+  color: rgb(82, 82, 82);
+}
+.light .paratxt
+{
+  color: #000;
+}
+.light .themebag
+{
+  background-color: #ffffff;
+}
+
+/* Dark-Theme */
+.dark .text-head
+{
+  color: rgb(224, 224, 224);
+}
+.dark .dashtab
+{
+  background-color: rgba(178, 178, 178, 0.729);
+}
+.dark .icons
+{
+  color: rgb(82, 82, 82);
+}
+.dark .paratxt
+{
+  color: rgb(255, 255, 255);
+}
+.dark .themebag
+{
+  background-color: #1b0f4b;
+}
+
+
 
 /* Custom CSS */
 .minheight

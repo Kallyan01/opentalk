@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import createUser from "../API/postAPI/createUser";
+import CreateUser from "../API/postAPI/createUser";
 import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -27,7 +27,6 @@ function Home() {
   useEffect(() => {
     if(userauthdata)
     {
-
       navigate('/dashboard')
     } 
     axios.get("https://geolocation-db.com/json/").then((data) => {
@@ -59,7 +58,7 @@ function Home() {
   const handleCreate = async (event) => {
     dispatch(setLoader(true))
     event.preventDefault();
-    createUser(`${process.env.REACT_APP_API_URL}/user/create`, User)
+    CreateUser(`${process.env.REACT_APP_API_URL}/user/create`, User)
     .then((data) => {
       dispatch(saveUser({ ...data.data }));
       localStorage.setItem("opentalk", JSON.stringify({
@@ -79,12 +78,12 @@ function Home() {
     <div className="text-violate w-full h-screen flex justify-center align-middle flex-col">
       <img src={coreimg} className="mx-auto md:hidden" height="40%" width="100%" alt="" />
       <p className="text-4xl font-semibold px-10">What's Your Name ?</p>
-      <form className="px-10 flex flex-col" onSubmit={createUser}>
+      <form className="px-10 flex flex-col" onSubmit={handleCreate}>
         <div className="textBox my-4">
         <input className="impBox w-full" type="text" value={User.name} placeholder="Enter Your Name" onChange={(e)=>setUser({...User,name:e.target.value})} />
         </div>
         <div className="startBtn">
-          <button className="btn bg-violate text-white" onClick={handleCreate}>
+          <button type="submit" className="btn bg-violate text-white">
             Create
           </button>
         </div>

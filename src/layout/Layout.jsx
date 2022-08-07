@@ -3,12 +3,16 @@ import { Outlet } from "react-router-dom";
 import coreimg from "../asset/img2.png";
 import Navbar from "../components/site/Navbar";
 import Sidebar from "../components/site/Sidebar";
+import Msgbar from "../components/site/Msgbar"
+import Chatarea from "../components/site/Chatarea"
 
 function Layout() {
   return (
     <div className="layout flex flex-col h-screen">
      <Navbar/>
      <Sidebar/>
+     <Msgbar/>
+     <Chatarea/>
       <div className="body flex w-full">
         <div className="left md:w-1/2 md:flex hidden justify-center flex-col">
           <div className="w-full flex justify-center align-middle">

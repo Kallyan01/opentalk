@@ -1,0 +1,12 @@
+roomid
+we will save all the roomid's the user is joined inside the user schema in database 
+
+then we will iterate over it and fetch the req info from the chat rooms 
+
+msgbar
+we will get info about msg rooms from server itself with there last msg sent time 
+and content .(roomid,lastmsg:{time,content},users)
+
+masgtab
+we will return the messages if the userid is in the users list and the roomid is valid
+

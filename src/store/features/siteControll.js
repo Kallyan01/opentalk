@@ -8,6 +8,15 @@ const initialState = {
     tout: 0,
     vis: false,
   },
+  msgBar: false,
+  chatArea: {
+    status: false,
+    name: null,
+    roomid: null,
+  },
+  popup: {
+    creteacc: true,
+  },
 };
 
 const auth = createSlice({
@@ -33,8 +42,39 @@ const auth = createSlice({
         },
       };
     },
+    setMsgbar: (state, action) => {
+      return { ...state, msgBar: action.payload };
+    },
+    setChatroom: (state, action) => {
+      return {
+        ...state,
+        chatArea: {
+          status: action.payload.status,
+          name: action.payload.name,
+          roomid: action.payload.roomid,
+        },
+      };
+    },
+    clearChatroom: (state) => {
+      return {
+        ...state,
+        chatArea: {
+          status: false,
+          name: null,
+          roomid: null,
+        },
+      };
+    },
   },
 });
 
 export default auth.reducer;
-export const { setNav, setTheme, setLoader, setNoti } = auth.actions;
+export const {
+  setNav,
+  setMsgbar,
+  setTheme,
+  setLoader,
+  setNoti,
+  setChatroom,
+  clearChatroom,
+} = auth.actions;

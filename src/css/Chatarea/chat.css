@@ -1,0 +1,72 @@
+.msgbody
+{
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 90%;
+}
+
+
+.msg
+{
+    position: relative;
+    background-color: #E0E0E0;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 10px;
+    max-width: 70%;
+}
+.msg.left::after
+{
+    content: '';
+    position: absolute;
+    width: 0px;
+   height: 0px;
+   border-style: solid;
+   border-width: 0 10.5px 25px 10.5px;
+   border-color: transparent transparent #E0E0E0 transparent;
+   transform: rotate(235deg);
+   bottom: -10px;
+   left: -10px;
+}
+.msg.right::after
+{
+    content: '';
+    position: absolute;
+    width: 0px;
+   height: 0px;
+   border-style: solid;
+   border-width: 0 10.5px 25px 10.5px;
+   border-color: transparent transparent #E0E0E0 transparent;
+   transform: rotate(125deg);
+   bottom: -10px;
+   right: -10px;
+}
+
+.msginputbox
+{
+    width: 100%;
+    padding: 10px;
+    margin-bottom:5px ;
+    background-color: transparent;
+    
+}
+.msginputbox .textinputarea
+{
+    width: 80%;
+    /* background-color: red; */
+}
+.textsendarea
+{
+    background-color: rgb(231, 231, 231);
+    width: 20%;
+    border-radius: 0 10px 10px 0;
+}
+.msginputbox .textinputarea input
+{
+    width: 100%;
+    border-radius: 10px 0 0 10px;
+    border: none;
+    outline: none;
+    background-color: rgb(228, 228, 228);
+    padding: 10px;
+}
