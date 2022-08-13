@@ -10,3 +10,10 @@ and content .(roomid,lastmsg:{time,content},users)
 masgtab
 we will return the messages if the userid is in the users list and the roomid is valid
 
+user-room-data-schema
+{
+roomid(string),
+uid(string),
+archived(bool)
+}
+

@@ -10,20 +10,20 @@ import { setNoti } from "../../store/features/siteControll";
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { FaFacebook,FaWhatsapp,FaTwitter } from "react-icons/fa";
 import {RiRefreshLine} from "react-icons/ri";
+import {Gettime} from "../../helper/Gettime";
+import {TbMessageShare} from "react-icons/tb"
+import {createRoom} from "../../API/postAPI/createChatroom";
 
 
 function Dashboard() {
-  const urlAreaRef = useRef();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [LinkVisits, setLinkVisits] = useState(0);
   const [Messages, setMessages] = useState([]);
   const [Sharelink, setSharelink] = useState("");
-  const data = useSelector((state) => state.userdet);
+  const userdata = useSelector((state) => state.userdet);
   const [refresh, setRefresh] = useState(false);
-  const [copySuccess, setCopySuccess] = useState({
-    copied: false,
-  });
+
   const copyUrl = async(e) => {
     dispatch(
       setNoti({
@@ -64,7 +64,7 @@ function Dashboard() {
           });
       };
       userdatafetch(
-        `${process.env.REACT_APP_API_URL}/user/${userauthdata._id}/${userauthdata.authcode}`
+        `${process.env.REACT_APP_URL}/user/${userauthdata._id}/${userauthdata.authcode}`
       );
     } else {
       navigate("/home");
@@ -83,6 +83,15 @@ function Dashboard() {
     }
     return value;
   };
+
+  const handlePTPmseeage = async(uid1,uid2) =>{
+    createRoom({
+      users: [uid1,uid2],
+      msgs: [],
+    }).then(data=>{
+      console.log(data)
+    })
+  }
   return (
     <div className="dashboard p-5 mt-10 md:mt-auto">
       <div className="stats flex flex-row w-full justify-center align-middle bg-gray-light rounded-xl">
@@ -158,8 +167,12 @@ function Dashboard() {
         <div className="msglist flex flex-col ">
           {Messages.map((msg, idx) => {
             return (
-              <div className="card my-1  flex flex-row w-full p-3 minheight items-center bg-gray-light rounded-xl">
-                {msg.text}
+              <div className="card my-1  flex flex-row justify-between w-full p-2 minheight items-center bg-gray-light rounded-xl">
+                <div className="message">{msg.text}</div>
+                <div className="msgext flex flex-col-reverse  h-full justify-between ">
+                  <div className="chatbtn ml-auto" ><TbMessageShare size={20} className='mx-2' onClick={()=>handlePTPmseeage(userdata._id, msg.uid)}/></div>
+                  <div className="msgtime">{Gettime(msg?.time)}</div>
+                </div>
               </div>
             );
           })}

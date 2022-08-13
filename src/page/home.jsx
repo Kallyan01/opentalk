@@ -16,6 +16,7 @@ function Home() {
     name: "",
     joindate: new Date(),
     activedate: new Date(),
+    chatrooms:[],
     msgs: [],
     linkvisits: 0,
     ip: "",
@@ -48,9 +49,17 @@ function Home() {
     console.log(position.coords.longitude);
     setUser({
       ...User,
+        location: {
+          latitude: position.coords.latitude,
+          ...User.location
+        }
+      
+    });
+    setUser({
+      ...User,
       location: {
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
+        ...User.location,
+        longitude: position.coords.longitude
       }
     });
   }

@@ -12,10 +12,10 @@ import CreateUser from "../API/postAPI/createUser";
 import Createacc from "../components/site/Createacc";
 
 function Msgbox() {
-  const userauthdata = JSON.parse(window.localStorage.getItem("opentalk"));
+  const userauthdata = JSON.parse(window.localStorage.getItem("opentalk"))
+  
   const dispatch = useDispatch();
   const { _id } = useParams();
-  console.log(_id);
   const createUser = () => {
     return true;
   };
@@ -23,6 +23,7 @@ function Msgbox() {
     name: "",
     joindate: new Date(),
     activedate: new Date(),
+    chatrooms:[],
     msgs: [],
     linkvisits: 0,
     ip: "",
@@ -32,14 +33,22 @@ function Msgbox() {
     },
   });
   const [Msg, setMsg] = useState({
+    uid:  "",
     text: "",
     ip: "",
+    time: new Date().toString(),
     location: {
       latitude: "",
       longitude: "",
     },
   });
   const [delivarySts, setDelivarySts] = useState(false);
+  useEffect(()=>{
+    if (!userauthdata) {
+      createtempacc();
+    }
+   setMsg({...Msg,uid:userauthdata?userauthdata._id:""})
+  },[Msg.text])
   useEffect(() => {
     if (!userauthdata) {
       axios.get("https://geolocation-db.com/json/").then((data) => {
@@ -83,15 +92,22 @@ function Msgbox() {
       ...Msg,
       location: {
         latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-      },
+        ...Msg.location
+      }
     });
+    setMsg({
+      ...Msg,
+      location: {
+        ...Msg.location,
+        longitude: position.coords.longitude
+      }
+    });
+    console.log(Msg)
   }
   async function sendMsg(event) {
-    if (!userauthdata) {
-      createtempacc();
-    }
     event.preventDefault();
+    console.log(Msg)
+    
     let url = `${process.env.REACT_APP_API_URL}/user/${_id}/sentmsg`;
     let bodyContent = {
       msgs: Msg,
@@ -114,11 +130,10 @@ function Msgbox() {
   const createtempacc = async () => {
     CreateUser(`${process.env.REACT_APP_API_URL}/tempuser/create`, User)
       .then((data) => {
-        console.log("here in createacc");
         localStorage.setItem(
           "opentalk",
           JSON.stringify({
-            _id: data?.data._id,
+            _id: data?.data?._id,
             authcode: data?.data?.authcode,
           })
         );
@@ -134,7 +149,7 @@ function Msgbox() {
       <div className="messagearea m-auto">
         <p className="text-4xl font-semibold px-9 my-2">Hey,</p>
         <p className="text-2xl font-semibold px-9">
-          Send {User.name.toUpperCase()} Your Secret Message here
+          Send {User?.name?.toUpperCase()} Your Secret Message here
         </p>
         <form className="px-10 flex flex-col" onSubmit={sendMsg}>
           <div className="sndmsg my-4 relative">
