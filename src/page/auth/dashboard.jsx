@@ -132,20 +132,20 @@ function Dashboard() {
         <div className="shareIcon flex flex-row w-full justify-center items-center">
           <a
             target="_blank"
-            href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F192.168.0.101:3000&amp;src=sdkpreparse"
+            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`Want to send ${userdata.name} a secret message anonymously send it here via this link https://opentlk.ml/sendmsg/${userdata._id}`)}&amp;src=sdkpreparse`}
             className="fb-xfbml-parse-ignore"
           >
            <FaFacebook size={30} className='mx-2'/>
           </a>
           <a
-            href="https://api.whatsapp.com/send?text=www.learne.co.in"
+            href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`Want to send ${userdata.name} a secret message anonymously send it here via this link https://opentlk.ml/sendmsg/${userdata._id}`)} `}
             data-action="share/whatsapp/share"
           >
             <FaWhatsapp size={30} className='mx-2'/>
           </a>
           <a
             className="twitter-share-button"
-            href={`https://twitter.com/intent/tweet?text=Hello%20From%20Opentalk%20&url=https%3A%2F%2F192.168.0.101%2Fsendmsg%2F${userauthdata._id}`}
+            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Want to send ${userdata.name} a secret message anonymously send it here via this link https://opentlk.ml/sendmsg/${userdata._id}`)}`}
             data-size="large"
           >
             <FaTwitter size={30} className='mx-2'/>

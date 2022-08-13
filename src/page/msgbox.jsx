@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import coreimg from "../asset/img2.png";
 import { useParams } from "react-router-dom";
 import getUser from "../API/getAPI/getUser";
@@ -13,7 +14,7 @@ import Createacc from "../components/site/Createacc";
 
 function Msgbox() {
   const userauthdata = JSON.parse(window.localStorage.getItem("opentalk"))
-  
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   const { _id } = useParams();
   const createUser = () => {
@@ -52,7 +53,7 @@ function Msgbox() {
   useEffect(() => {
     if (!userauthdata) {
       axios.get("https://geolocation-db.com/json/").then((data) => {
-        setUser({ ...User, ip: data?.data?.IPv4 });
+        setUser({ ...User, ip: data.data.IPv4 });
       });
     }
   }, []);
@@ -62,10 +63,20 @@ function Msgbox() {
       .then((data) => {
         console.log(data.data);
         setUser({ name: data?.data?.username });
-        console.log('on process')
         dispatch(setLoader(false));
       })
-      .catch((err) => console.log(err));
+      .catch((err) =>{
+        console.log(err)
+        dispatch(
+          setNoti({
+            msg: 'User Not Found',
+            tout: 2000,
+            vis: true,
+          })
+  
+        );
+        navigate('/home')
+      })
   }, []);
   useEffect(() => {
     axios.get("https://geolocation-db.com/json/").then((data) => {
