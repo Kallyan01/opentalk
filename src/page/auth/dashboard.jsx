@@ -49,7 +49,7 @@ function Dashboard() {
               setMessages([...user.data.msgs]);
               dispatch(setLoader(false));
               setSharelink(
-                `${process.env.REACT_APP_API_URL}/sendmsg/${user.data._id}`
+                `${process.env.REACT_APP_URL}/sendmsg/${user.data._id}`
               );
             }
           })
@@ -64,7 +64,7 @@ function Dashboard() {
           });
       };
       userdatafetch(
-        `${process.env.REACT_APP_URL}/user/${userauthdata._id}/${userauthdata.authcode}`
+        `${process.env.REACT_APP_API_URL}/user/${userauthdata._id}/${userauthdata.authcode}`
       );
     } else {
       navigate("/home");
