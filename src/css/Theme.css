@@ -17,92 +17,83 @@ background-color: #F9F9F9;
 
 /* Dark-Light-Theme */
 
+
+
+
 /* Light-Theme */
-.light .text-head
+.light .text-1
 {
   color: rgb(87, 87, 87);
 }
-.light .dashtab
+.light .text-2
 {
-  background-color: rgba(218, 218, 218, 0.729);
+  color: #000;
+}
+.light .text-3
+{
+  color: #000;
+}
+.light .sidebar
+{
+  background-color: rgba(223, 223, 223, 0.844);
+}
+.light .dashtab-1
+{
+  background-color: rgba(245, 245, 245, 0.729);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+.light .dashtab-2
+{
+  background-color: rgba(235, 235, 235, 0.729);
+  box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
 }
 .light .icons
 {
   color: rgb(82, 82, 82);
 }
-.light .paratxt
-{
-  color: #000;
-}
-.light .themebag
+.light.themebag
 {
   background-color: #ffffff;
 }
 
+
+
+
+
+
 /* Dark-Theme */
-.dark .text-head
+.dark .text-1
 {
-  color: rgb(224, 224, 224);
+  color: rgb(224, 224, 224) !important;
 }
-.dark .dashtab
-{
-  background-color: rgba(178, 178, 178, 0.729);
-}
-.dark .icons
-{
-  color: rgb(82, 82, 82);
-}
-.dark .paratxt
+.dark .text-2
 {
   color: rgb(255, 255, 255);
 }
-.dark .themebag
+.dark .text-3
 {
-  background-color: #1b0f4b;
+  color: rgb(199, 199, 199);
+}
+.dark .sidebar
+{
+  background-color: rgba(49, 49, 49, 0.844);
+}
+.dark .dashtab-1
+{
+  background-color: rgba(69, 69, 69, 0.496);
+  box-shadow: rgba(114, 114, 114, 0.593) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+.dark .dashtab-2
+{
+  background-color: rgba(69, 69, 69, 0.496);
+  box-shadow: rgba(122, 122, 122, 0.06) 0px 2px 4px 0px inset;
+}
+.dark .icons
+{
+  color: rgb(171, 171, 171);
+}
+.dark.themebag
+{
+  background-color: #28262e;
 }
 
-
-
-/* Custom CSS */
-.minheight
-{
-  min-height: 150px;
-}
-.impBox {
-  border: 1px solid rgb(135, 135, 135);
-  border-radius: 10px;
-  padding: 5px 10px;
-  outline: none;
-  font-size: 1.5em;
-}
-.btn {
-  padding: 8px 20px;
-  font-size: 1.2em;
-  border-radius: 10px;
-}
-.parabox {
-  border: 1px solid rgb(135, 135, 135);
-  padding: 5px 10px;
-  border-radius: 10px;
-  font-size: 1.2em;
-  resize: none;
-  outline: none;
-}
-span
-{
-  font-size: .6em;
-  text-align: center;
-  padding: 5px 0;
-}
-.loaderscreen
-{
-  backdrop-filter: blur(6px);
-  z-index: 100;
-  background-color: rgba(255, 255, 255, 0.862);
-}
-.sidebar li
-{
-  font-size: 1.2em;
-  font-weight: 500;
-  margin: .7em 0;
-}

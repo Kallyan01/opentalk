@@ -21,10 +21,10 @@ function Navbar() {
   return (
     <div className="navbar flex justify-between w-full fixed top-0">
       <div className="bmenu p-2">
-          <HiMenuAlt1 size={30} onClick={handleSidebar}/>
+          <HiMenuAlt1 size={30} className='icons' onClick={handleSidebar}/>
       </div>
       <div className="msgbox p-2">
-        <TbMessages size={30} onClick={handleMsg}/>
+        <TbMessages size={30} className='icons' onClick={handleMsg}/>
       </div>
       
     </div>

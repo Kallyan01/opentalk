@@ -94,9 +94,9 @@ function Dashboard() {
   }
   return (
     <div className="dashboard p-5 mt-10 md:mt-auto">
-      <div className="stats flex flex-row w-full justify-center align-middle bg-gray-light rounded-xl">
+      <div className=" dashtab-1 stats flex flex-row w-full justify-center align-middle bg-gray-light rounded-xl">
         <div className="linkClk flex flex-col w-1/2 justify-center align-middle p-5">
-          <div className="title text-head font-medium text-xl text-center p-1">
+          <div className="title text-1 font-medium text-xl text-center p-1">
             Linkvisits
           </div>
           <div className="value text-violate text-3xl font-semibold text-center p-4">
@@ -104,7 +104,7 @@ function Dashboard() {
           </div>
         </div>
         <div className="msgRec flex flex-col w-1/2 justify-center align-middle p-5">
-          <div className="title text-head font-medium text-xl text-center p-1">
+          <div className="title text-1 font-medium text-xl text-center p-1">
             Messages
           </div>
           <div className="value text-violate text-3xl font-semibold text-center p-4">
@@ -112,8 +112,8 @@ function Dashboard() {
           </div>
         </div>
       </div>
-      <div className="shareArea bg-gray-light rounded-xl my-2 flex flex-col justify-center items-center w-full p-2">
-        <div className="shareLink bg-slate-200 text-violate rounded-xl py-1 px-1 md:px-7 flex row w-full justify-between items-center">
+      <div className="dashtab-1 shareArea bg-gray-light rounded-xl my-2 flex flex-col justify-center items-center w-full p-2">
+        <div className="dashtab-2 shareLink bg-slate-200 text-violate rounded-xl py-1 px-1 md:px-7 flex row w-full justify-between items-center">
           <input
             className="bg-transparent w-full text-sm px-1"
             type="text"
@@ -126,7 +126,7 @@ function Dashboard() {
           <VscCopy size={25} className="m-2" />
         </CopyToClipboard>
         </div>
-        <div className="shareText text-center w-full text-xs">
+        <div className="text-3 my-2 shareText text-center w-full text-xs">
           <p>Share Now</p>
         </div>
         <div className="shareIcon flex flex-row w-full justify-center items-center">
@@ -135,43 +135,43 @@ function Dashboard() {
             href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`Want to send ${userdata.name} a secret message anonymously send it here via this link https://opentlk.ml/sendmsg/${userdata._id}`)}&amp;src=sdkpreparse`}
             className="fb-xfbml-parse-ignore"
           >
-           <FaFacebook size={30} className='mx-2'/>
+           <FaFacebook size={25} className='icons mx-2'/>
           </a>
           <a
             href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`Want to send ${userdata.name} a secret message anonymously send it here via this link https://opentlk.ml/sendmsg/${userdata._id}`)} `}
             data-action="share/whatsapp/share"
           >
-            <FaWhatsapp size={30} className='mx-2'/>
+            <FaWhatsapp size={25} className='icons mx-2'/>
           </a>
           <a
             className="twitter-share-button"
             href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Want to send ${userdata.name} a secret message anonymously send it here via this link https://opentlk.ml/sendmsg/${userdata._id}`)}`}
             data-size="large"
           >
-            <FaTwitter size={30} className='mx-2'/>
+            <FaTwitter size={25} className='icons mx-2'/>
           </a>
           {/* twitter */}
         </div>
       </div>
       <div className="messages flex flex-col ">
         <div className="flex flex-row p-1">
-          <p className="font-medium text-xl text-center">Messages</p>
+          <p className="font-medium text-1 text-xl text-center">Messages</p>
           <p className="refrbtn flex justify-center items-center"
             onClick={() => {
               setRefresh(!refresh);
             }}
           >
-            <RiRefreshLine size={20} className='mx-2'/>
+            <RiRefreshLine size={20} className='icons mx-2'/>
           </p>
         </div>
         <div className="msglist flex flex-col ">
           {Messages.map((msg, idx) => {
             return (
-              <div className="card my-1  flex flex-row justify-between w-full p-2 minheight items-center bg-gray-light rounded-xl">
-                <div className="message">{msg.text}</div>
-                <div className="msgext flex flex-col-reverse  h-full justify-between ">
-                  <div className="chatbtn ml-auto" ><TbMessageShare size={20} className='mx-2' onClick={()=>handlePTPmseeage(userdata._id, msg.uid)}/></div>
-                  <div className="msgtime">{Gettime(msg?.time)}</div>
+              <div className="dashtab-1 card my-1  flex flex-row justify-between w-full p-2 minheight items-center bg-gray-light rounded-xl">
+                <div className="message text-1">{msg.text}</div>
+                <div className="msgext flex flex-col-reverse w-10  h-full justify-between ">
+                  <div className="chatbtn ml-auto" ><TbMessageShare size={20} className='icons mx-2' onClick={()=>handlePTPmseeage(userdata._id, msg.uid)}/></div>
+                  <div className="msgtime text-3">{Gettime(msg?.time)}</div>
                 </div>
               </div>
             );

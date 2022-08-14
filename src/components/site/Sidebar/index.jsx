@@ -27,7 +27,7 @@ function Sidebar() {
       nav ? "-left-0" : "-left-full"
     } transition-all duration-500 bottom-0`}>
     <ul
-      className={`sidebar z-40 w-3/4 md:w-1/4 h-screen py-5 px-2 flex flex-col justify-center items-center fixed top-0 bottom-0 bg-slate-100 bg-opacity-80 backdrop-blur-sm `}
+      className={`text-1 sidebar z-40 w-3/4 md:w-1/4 h-screen py-5 px-2 flex flex-col justify-center items-center fixed top-0 bottom-0 bg-slate-100 bg-opacity-80 backdrop-blur-sm `}
     >
       <div className="absolute top-0 right-0 p-2">
         <IconContext.Provider value={{ color: "red", size: "25px" }}>
