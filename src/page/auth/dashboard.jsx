@@ -15,6 +15,7 @@ import {TbMessageShare} from "react-icons/tb"
 import {createRoom} from "../../API/postAPI/createChatroom";
 
 
+
 function Dashboard() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -37,6 +38,11 @@ function Dashboard() {
     _id: 0,
     authcode: 0,
   };
+  // useEffect(()=>{
+  //   setInterval(()=>{
+  //     window.location.reload();
+  //   },2000)
+  // })
   useEffect(() => {
     const userauthdata = JSON.parse(window.localStorage.getItem("opentalk"));
     if (userauthdata != null) {
@@ -164,7 +170,7 @@ function Dashboard() {
             <RiRefreshLine size={20} className='icons mx-2'/>
           </p>
         </div>
-        <div className="msglist flex flex-col ">
+        <div className="msglist flex flex-col p-1">
           {Messages.map((msg, idx) => {
             return (
               <div className="dashtab-1 card my-1  flex flex-row justify-between w-full p-2 minheight items-center bg-gray-light rounded-xl">
