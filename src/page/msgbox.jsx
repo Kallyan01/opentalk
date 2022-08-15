@@ -118,7 +118,8 @@ function Msgbox() {
   async function sendMsg(event) {
     event.preventDefault();
     console.log(Msg)
-    
+    if(_id!==userauthdata._id)
+    {
     let url = `${process.env.REACT_APP_API_URL}/user/${_id}/sentmsg`;
     let bodyContent = {
       msgs: Msg,
@@ -137,6 +138,17 @@ function Msgbox() {
         setMsg({ ...Msg, text: "" });
       })
       .catch((err) => console.log(err));
+    }
+    else
+    {
+      dispatch(
+        setNoti({
+          msg: "You can't send message to yourself",
+          tout: 2000,
+          vis: true,
+        })
+      );
+    }
   }
   const createtempacc = async () => {
     CreateUser(`${process.env.REACT_APP_API_URL}/tempuser/create`, User)
