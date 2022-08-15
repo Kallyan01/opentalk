@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Msgtab from "./Msgtab";
 import "./index.css";
@@ -17,15 +17,15 @@ function Index() {
     dispatch(setMsgbar(!msgbar));
   };
   let [Listroom, setListroom] = useState([]);
-
+useEffect(()=>{
   axios
     .get(
-      `${process.env.REACT_APP_API_URL}/chatrooms/${userauthdata._id}/${userauthdata.authcode}`
+      `${process.env.REACT_APP_API_URL}/chatrooms/${userauthdata?._id}/${userauthdata?.authcode}`
     )
     .then((data) => {
-      console.log(data.data)
       setListroom(data.data);
-    });
+    },[]);
+})
 
   return (
     <div
