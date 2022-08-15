@@ -18,12 +18,12 @@ function Index({name,roomid,msgs}) {
         </div>
         <div className="det px-3">
           <p className="name font-semibold">{name}</p>
-          <p className="lastmsg">{msgs[msgs.length-1].text}</p>
+          {/* <p className="lastmsg">{msgs[msgs.length-1].text}</p> */}
         </div>
       </div>
       <div className="right flex flex-row">
         <div className="time">
-          <p className="timelastmsg text-xs">{msgs[msgs.length-1].time}</p>
+          {/* <p className="timelastmsg text-xs">{msgs[msgs.length-1].time}</p> */}
         </div>
       </div>
     </div>
