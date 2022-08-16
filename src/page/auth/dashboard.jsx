@@ -13,7 +13,7 @@ import {RiRefreshLine} from "react-icons/ri";
 import {Gettime} from "../../helper/Gettime";
 import {TbMessageShare} from "react-icons/tb"
 import {createRoom} from "../../API/postAPI/createChatroom";
-
+import { setChatroom } from "../../store/features/siteControll";
 
 
 function Dashboard() {
@@ -95,7 +95,13 @@ function Dashboard() {
       users: [uid1,uid2],
       msgs: [],
     }).then(data=>{
-      console.log(data)
+      console.log(data.data)
+    
+    dispatch(setChatroom({
+      status: true,
+      name: undefined,
+      roomid: data.data?.roomid
+     }))
     })
   }
   return (

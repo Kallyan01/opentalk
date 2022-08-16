@@ -13,8 +13,8 @@ import CreateUser from "../API/postAPI/createUser";
 import Createacc from "../components/site/Createacc";
 
 function Msgbox() {
-  const userauthdata = JSON.parse(window.localStorage.getItem("opentalk"))
-  const navigate = useNavigate()
+  const userauthdata = JSON.parse(window.localStorage.getItem("opentalk"));
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { _id } = useParams();
   const createUser = () => {
@@ -24,7 +24,7 @@ function Msgbox() {
     name: "",
     joindate: new Date(),
     activedate: new Date(),
-    chatrooms:[],
+    chatrooms: [],
     msgs: [],
     linkvisits: 0,
     ip: "",
@@ -34,7 +34,7 @@ function Msgbox() {
     },
   });
   const [Msg, setMsg] = useState({
-    uid:  "",
+    uid: "",
     text: "",
     ip: "",
     time: new Date().toString(),
@@ -44,12 +44,12 @@ function Msgbox() {
     },
   });
   const [delivarySts, setDelivarySts] = useState(false);
-  useEffect(()=>{
+  useEffect(() => {
     if (!userauthdata) {
       createtempacc();
     }
-   setMsg({...Msg,uid:userauthdata?userauthdata._id:""})
-  },[Msg.text])
+    setMsg({ ...Msg, uid: userauthdata ? userauthdata._id : "" });
+  }, [Msg.text]);
   useEffect(() => {
     if (!userauthdata) {
       axios.get("https://geolocation-db.com/json/").then((data) => {
@@ -65,28 +65,29 @@ function Msgbox() {
         setUser({ name: data?.data?.username });
         dispatch(setLoader(false));
       })
-      .catch((err) =>{
-        console.log(err)
+      .catch((err) => {
+        console.log(err);
         dispatch(
           setNoti({
-            msg: 'User Not Found',
+            msg: "User Not Found",
             tout: 2000,
             vis: true,
           })
-  
         );
-        navigate('/home')
-      })
+        navigate("/home");
+      });
   }, []);
   useEffect(() => {
-    axios.get("https://geolocation-db.com/json/").then((data) => {
-      setMsg({ ...Msg, ip: data.data.IPv4 });
-    });
-    getLocation();
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/linkview/inc/${_id}`)
-      .then((data) => console.log(data))
-      .catch((err) => console.log(err));
+    if (_id !== userauthdata._id) {
+      axios.get("https://geolocation-db.com/json/").then((data) => {
+        setMsg({ ...Msg, ip: data.data.IPv4 });
+      });
+      getLocation();
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/linkview/inc/${_id}`)
+        .then((data) => console.log(data))
+        .catch((err) => console.log(err));
+    }
   }, []);
   function getLocation() {
     if (navigator.geolocation) {
@@ -103,44 +104,41 @@ function Msgbox() {
       ...Msg,
       location: {
         latitude: position.coords.latitude,
-        ...Msg.location
-      }
+        ...Msg.location,
+      },
     });
     setMsg({
       ...Msg,
       location: {
         ...Msg.location,
-        longitude: position.coords.longitude
-      }
+        longitude: position.coords.longitude,
+      },
     });
-    console.log(Msg)
+    console.log(Msg);
   }
   async function sendMsg(event) {
     event.preventDefault();
-    console.log(Msg)
-    if(_id!==userauthdata._id)
-    {
-    let url = `${process.env.REACT_APP_API_URL}/user/${_id}/sentmsg`;
-    let bodyContent = {
-      msgs: Msg,
-    };
-    axios
-      .post(url, bodyContent)
-      .then((data) => {
-        setDelivarySts(true);
-        dispatch(
-          setNoti({
-            msg: "Message Sent",
-            tout: 1000,
-            vis: true,
-          })
-        );
-        setMsg({ ...Msg, text: "" });
-      })
-      .catch((err) => console.log(err));
-    }
-    else
-    {
+    console.log(Msg);
+    if (_id !== userauthdata._id) {
+      let url = `${process.env.REACT_APP_API_URL}/user/${_id}/sentmsg`;
+      let bodyContent = {
+        msgs: Msg,
+      };
+      axios
+        .post(url, bodyContent)
+        .then((data) => {
+          setDelivarySts(true);
+          dispatch(
+            setNoti({
+              msg: "Message Sent",
+              tout: 1000,
+              vis: true,
+            })
+          );
+          setMsg({ ...Msg, text: "" });
+        })
+        .catch((err) => console.log(err));
+    } else {
       dispatch(
         setNoti({
           msg: "You can't send message to yourself",

@@ -59,7 +59,7 @@ function Index() {
                    back   
             </div>
             <div className="avatar">
-              <p>Av</p>
+              <p>{chatbox.roomid}</p>
             </div>
             <div className="uname">
 

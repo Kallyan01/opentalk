@@ -24,8 +24,8 @@ useEffect(()=>{
     )
     .then((data) => {
       setListroom(data.data);
-    },[]);
-})
+    });
+},[msgbar])   //change the api req on createroom click
 
   return (
     <div
