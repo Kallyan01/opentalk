@@ -1,9 +1,34 @@
-
-.msglist
+.h5
 {
-    overflow-y: scroll;
-    height: 40vh;
+height: 5vh;
 }
+.h95
+{
+  height: 95vh;
+}
+.widgets
+{
+  /* height: 35%; */
+  overflow: hidden;
+}
+.messages
+{
+  height: 65%;
+  overflow: hidden;
+}
+
+.msglist {
+  overflow-y: scroll;
+  height: 52vh;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.msglist::-webkit-scrollbar {
+  display: none;
+}
+
+
 .shareLink input
 {
 outline: none;
@@ -59,4 +84,11 @@ span
 {
     font-size: .5em;
 }
+@media screen and (max-height:670px) {
+  
+  .msglist {
+    height: 45vh;
 
+  }
+}
+  

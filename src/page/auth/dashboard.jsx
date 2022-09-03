@@ -105,7 +105,7 @@ function Dashboard() {
     })
   }
   return (
-    <div className="dashboard p-5 mt-10 md:mt-auto">
+    <div className="dashboard px-5 md:mt-auto">
       <div className=" dashtab-1 stats flex flex-row w-full justify-center align-middle bg-gray-light rounded-xl">
         <div className="linkClk flex flex-col w-1/2 justify-center align-middle p-5">
           <div className="title text-1 font-medium text-xl text-center p-1">

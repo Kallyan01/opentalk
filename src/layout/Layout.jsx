@@ -13,8 +13,8 @@ function Layout() {
      <Sidebar/>
      <Msgbar/>
      <Chatarea/>
-      <div className="body flex w-full">
-        <div className="left md:w-1/2 md:flex hidden justify-center flex-col">
+      <div className="body flex w-ful">
+        <div className="left md:w-2/3 md:flex hidden justify-center flex-col">
           <div className="w-full flex justify-center align-middle">
             <img src={coreimg} alt="" height={300} width={500} />
           </div>
@@ -22,7 +22,7 @@ function Layout() {
             <p className="uppercase font-bold text-3xl">Welcome To OpenTalk</p>
           </div>
         </div>
-        <div className="right w-full md:w-1/2">
+        <div className="right w-full md:w-1/3">
           <Outlet />
         </div>
       </div>

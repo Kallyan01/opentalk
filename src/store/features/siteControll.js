@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit/";
 const initialState = {
   navBar: false,
-  theme: "light",
+  theme: "dark",
   loader: true,
   notification: {
     msg: "",

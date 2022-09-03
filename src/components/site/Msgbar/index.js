@@ -29,13 +29,13 @@ useEffect(()=>{
 
   return (
     <div
-      className={`msgbar z-40 w-full md:w-1/4 h-screen py-1 px-1 flex flex-col  bg-slate-300 fixed top-0 ${
+      className={`msgbar z-40 w-full md:w-1/4 h-screen py-1 px-1 flex flex-col  bg-slate-200 fixed top-0 ${
         msgbar ? "-right-0" : "-right-full"
       } transition-all duration-500 bottom-0`}
     >
       <div className="msgareaheader flex items-center p-2">
-        <FaArrowLeft size={20} className="mx-2" onClick={handleClosemsgbar} />
-        <p>Messages</p>
+        <FaArrowLeft size={20} className="icons mx-2" onClick={handleClosemsgbar} />
+        <p className="text-3">Messages</p>
       </div>
       <div className="msgsarea ">
         {Listroom.map((user, idx) => {
