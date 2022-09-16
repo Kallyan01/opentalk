@@ -20,6 +20,9 @@ function Msgbox() {
   const createUser = () => {
     return true;
   };
+  const [Uiddet, setUiddet] = useState({
+    name: "",
+  });
   const [User, setUser] = useState({
     name: "",
     joindate: new Date(),
@@ -30,11 +33,11 @@ function Msgbox() {
     ip: "",
     location: {
       latitude: "",
-      longitude: "",
-    },
+      longitude: ""
+    }
   });
   const [Msg, setMsg] = useState({
-    uid: "",
+    uid: userauthdata?._id,
     text: "",
     ip: "",
     time: new Date().toString(),
@@ -44,25 +47,32 @@ function Msgbox() {
     },
   });
   const [delivarySts, setDelivarySts] = useState(false);
+
   useEffect(() => {
+
+      
     if (!userauthdata) {
-      createtempacc();
-    }
-    setMsg({ ...Msg, uid: userauthdata ? userauthdata._id : "" });
-  }, [Msg.text]);
-  useEffect(() => {
-    if (!userauthdata) {
-      axios.get("https://geolocation-db.com/json/").then((data) => {
-        setUser({ ...User, ip: data.data.IPv4 });
-      });
+      axios
+        .get("https://geolocation-db.com/json/")
+        .then((data) => {
+
+          setUser({ ...User, ip: data.data.IPv4 });
+          setTimeout(() => {
+            createtempacc();
+          }, 1000);
+        })
+        .catch((err) => console.log(err));
     }
   }, []);
+
+
+
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/getuser/${_id}`)
       .then((data) => {
-        console.log(data.data);
-        setUser({ name: data?.data?.username });
+
+        setUiddet({ name: data?.data?.username });
         dispatch(setLoader(false));
       })
       .catch((err) => {
@@ -77,15 +87,16 @@ function Msgbox() {
         navigate("/home");
       });
   }, []);
+
   useEffect(() => {
-    if (_id !== userauthdata._id) {
+    getLocation();
+    if (_id !== userauthdata?._id) {
       axios.get("https://geolocation-db.com/json/").then((data) => {
-        setMsg({ ...Msg, ip: data.data.IPv4 });
+        setMsg({ ...Msg, ip: data?.data?.IPv4 });
       });
-      getLocation();
+      
       axios
         .get(`${process.env.REACT_APP_API_URL}/linkview/inc/${_id}`)
-        .then((data) => console.log(data))
         .catch((err) => console.log(err));
     }
   }, []);
@@ -97,6 +108,12 @@ function Msgbox() {
     }
   }
 
+useEffect(()=>{
+  console.log("ip update")
+  console.log(Msg)
+},[Msg.ip])
+
+
   function showPosition(position) {
     console.log(position.coords.latitude);
     console.log(position.coords.longitude);
@@ -104,22 +121,42 @@ function Msgbox() {
       ...Msg,
       location: {
         latitude: position.coords.latitude,
-        ...Msg.location,
-      },
+        longitude: position.coords.longitude
+      }
     });
-    setMsg({
-      ...Msg,
+    setUser({
+      ...User,
       location: {
-        ...Msg.location,
-        longitude: position.coords.longitude,
-      },
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      }
     });
-    console.log(Msg);
   }
+
+  function createtempacc() {
+    CreateUser(`${process.env.REACT_APP_API_URL}/tempuser/create`, User)
+      .then((data) => {
+
+        setMsg({ ...Msg, uid: data.data._id ? data.data._id : undefined });
+
+        localStorage.setItem(
+          "opentalk",
+          JSON.stringify({
+            _id: data?.data?._id,
+            authcode: data?.data?.authcode,
+          })
+        );
+        dispatch(setLoader(false));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
   async function sendMsg(event) {
+    
     event.preventDefault();
-    console.log(Msg);
-    if (_id !== userauthdata._id) {
+    if (Msg?.uid && _id !== userauthdata?._id) {
       let url = `${process.env.REACT_APP_API_URL}/user/${_id}/sentmsg`;
       let bodyContent = {
         msgs: Msg,
@@ -148,29 +185,13 @@ function Msgbox() {
       );
     }
   }
-  const createtempacc = async () => {
-    CreateUser(`${process.env.REACT_APP_API_URL}/tempuser/create`, User)
-      .then((data) => {
-        localStorage.setItem(
-          "opentalk",
-          JSON.stringify({
-            _id: data?.data?._id,
-            authcode: data?.data?.authcode,
-          })
-        );
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
 
   return (
     <div className="text-violate w-full h-screen flex align-middle flex-col">
-      {/* <Createacc visible={true}/> */}
       <div className="messagearea m-auto">
         <p className="text-4xl font-semibold px-9 my-2">Hey,</p>
         <p className="text-2xl font-semibold px-9">
-          Send {User?.name?.toUpperCase()} Your Secret Message here
+          Send {Uiddet.name.toUpperCase()} Your Secret Message here
         </p>
         <form className="px-10 flex flex-col" onSubmit={sendMsg}>
           <div className="sndmsg my-4 relative">
@@ -183,7 +204,7 @@ function Msgbox() {
             <p className="absolute bottom-2 right-2">{Msg.text.length}/1000</p>
           </div>
           <span>
-            We ensure you , that {User?.name} will naver know who you are{" "}
+            We ensure you , that {Uiddet.name} will naver know who you are{" "}
           </span>
           <input
             type="submit"
