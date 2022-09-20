@@ -17,9 +17,7 @@ function Msgbox() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { _id } = useParams();
-  const createUser = () => {
-    return true;
-  };
+  let Msgtemobj;
   const [Uiddet, setUiddet] = useState({
     name: "",
   });
@@ -33,11 +31,12 @@ function Msgbox() {
     ip: "",
     location: {
       latitude: "",
-      longitude: ""
-    }
+      longitude: "",
+    },
   });
+
   const [Msg, setMsg] = useState({
-    uid: userauthdata?._id,
+    uid: userauthdata?userauthdata._id:"",
     text: "",
     ip: "",
     time: new Date().toString(),
@@ -46,34 +45,47 @@ function Msgbox() {
       longitude: "",
     },
   });
+  const [Num,setNum] = useState()
   const [delivarySts, setDelivarySts] = useState(false);
 
   useEffect(() => {
-
-      
-    if (!userauthdata) {
-      axios
-        .get("https://geolocation-db.com/json/")
-        .then((data) => {
-
-          setUser({ ...User, ip: data.data.IPv4 });
-          setTimeout(() => {
-            createtempacc();
-          }, 1000);
-        })
-        .catch((err) => console.log(err));
+    async function setuserdet() {
+      if (!userauthdata) {
+        try {
+          let userip = await axios.get("https://geolocation-db.com/json/");
+          setUser({ ...User, ip: userip.data.IPv4 });
+        } catch (err) {
+          console.log(err);
+        }
+      } else {
+        setMsg({ ...Msg, uid: userauthdata?._id });
+        dispatch(setLoader(false));
+      }
     }
+    setuserdet();
   }, []);
 
+  useEffect(() => {
+    if (User.ip && !userauthdata) {
+      createtempacc();
+    }
+  }, [User.ip]);
+  let count=0;
+  useEffect(() => {
+    count++;
+    console.log("Updated Msg "+ count);
+    console.log(Msg);
+  }, [Msg.uid]);
 
-
+  //getting user name of the param _id
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/getuser/${_id}`)
       .then((data) => {
-
         setUiddet({ name: data?.data?.username });
-        dispatch(setLoader(false));
+        axios
+          .get(`${process.env.REACT_APP_API_URL}/linkview/inc/${_id}`)
+          .catch((err) => console.log(err));
       })
       .catch((err) => {
         console.log(err);
@@ -88,18 +100,16 @@ function Msgbox() {
       });
   }, []);
 
+  //assigning user message a ip address
   useEffect(() => {
     getLocation();
     if (_id !== userauthdata?._id) {
       axios.get("https://geolocation-db.com/json/").then((data) => {
-        setMsg({ ...Msg, ip: data?.data?.IPv4 });
+        setMsg({ ...Msg, ip: data.data.IPv4 });
       });
-      
-      axios
-        .get(`${process.env.REACT_APP_API_URL}/linkview/inc/${_id}`)
-        .catch((err) => console.log(err));
     }
   }, []);
+
   function getLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(showPosition);
@@ -108,12 +118,6 @@ function Msgbox() {
     }
   }
 
-useEffect(()=>{
-  console.log("ip update")
-  console.log(Msg)
-},[Msg.ip])
-
-
   function showPosition(position) {
     console.log(position.coords.latitude);
     console.log(position.coords.longitude);
@@ -121,45 +125,44 @@ useEffect(()=>{
       ...Msg,
       location: {
         latitude: position.coords.latitude,
-        longitude: position.coords.longitude
-      }
+        longitude: position.coords.longitude,
+      },
     });
     setUser({
       ...User,
       location: {
         latitude: position.coords.latitude,
-        longitude: position.coords.longitude
-      }
+        longitude: position.coords.longitude,
+      },
     });
   }
 
   function createtempacc() {
-    CreateUser(`${process.env.REACT_APP_API_URL}/tempuser/create`, User)
-      .then((data) => {
-
-        setMsg({ ...Msg, uid: data.data._id ? data.data._id : undefined });
-
-        localStorage.setItem(
-          "opentalk",
-          JSON.stringify({
-            _id: data?.data?._id,
-            authcode: data?.data?.authcode,
-          })
-        );
-        dispatch(setLoader(false));
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    
+      CreateUser(`${process.env.REACT_APP_API_URL}/tempuser/create`, User)
+        .then((data) => {
+          setMsg({ ...User, uid: data?.data?._id });
+          localStorage.setItem(
+            "opentalk",
+            JSON.stringify({
+              _id: data?.data?._id,
+              authcode: data?.data?.authcode,
+            })
+          );
+          dispatch(setLoader(false));
+     
+        })
+        .catch((err) => {
+          console.error(err);
+        });
   }
 
   async function sendMsg(event) {
-    
     event.preventDefault();
-    if (Msg?.uid && _id !== userauthdata?._id) {
+    if (_id !== userauthdata?._id) {
       let url = `${process.env.REACT_APP_API_URL}/user/${_id}/sentmsg`;
       let bodyContent = {
-        msgs: Msg,
+        msgs: {...Msg,uid:userauthdata._id},
       };
       axios
         .post(url, bodyContent)
@@ -201,7 +204,7 @@ useEffect(()=>{
               value={Msg.text}
               onChange={(e) => setMsg({ ...Msg, text: e.target.value })}
             ></textarea>
-            <p className="absolute bottom-2 right-2">{Msg.text.length}/1000</p>
+            <p className="absolute bottom-2 right-2">{Msg?.text?.length}/1000</p>
           </div>
           <span>
             We ensure you , that {Uiddet.name} will naver know who you are{" "}
@@ -210,7 +213,6 @@ useEffect(()=>{
             type="submit"
             className="btn bg-violate text-white"
             value="Send The Secret Message"
-            required
           />
         </form>
       </div>

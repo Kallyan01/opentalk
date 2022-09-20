@@ -9,13 +9,13 @@ import {BrowserRouter} from  "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  // <React.StrictMode>   //in react 18 dev mode for strict mode useEffect runs twice ,so disable it to run normally
+  // <React.StrictMode> 
     <Provider store={store}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
     </Provider>
-  // </React.StrictMode>
+  //  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
