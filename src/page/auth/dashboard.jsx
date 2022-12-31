@@ -43,39 +43,54 @@ function Dashboard() {
   //     window.location.reload();
   //   },2000)
   // })
-  useEffect(() => {
-    const userauthdata = JSON.parse(window.localStorage.getItem("opentalk"));
-    if (userauthdata != null) {
-      const userdatafetch = async (url) => {
-        getUser(url)
-          .then((user) => {
-            if (user.data.auth) {
-              dispatch(saveUser({ ...user.data }));
-              setLinkVisits(user.data.linkvisits);
-              setMessages([...user.data.msgs]);
-              dispatch(setLoader(false));
-              setSharelink(
-                `${process.env.REACT_APP_URL}/sendmsg/${user.data._id}`
-              );
-            }
-          })
-          .catch((err) => {
-            if (err.response.status === 401) {
-              window.localStorage.removeItem("opentalk");
-              setTimeout(() => {
-                navigate("/home");
-              }, 2000);
-            }
-            console.error(err);
-          });
-      };
-      userdatafetch(
-        `${process.env.REACT_APP_API_URL}/user/${userauthdata._id}/${userauthdata.authcode}`
-      );
-    } else {
-      navigate("/home");
-    }
-  }, [refresh]);
+
+const userdatafetch = async (url) => {
+  getUser(url)
+    .then((user) => {
+      if (user.data.auth) {
+        dispatch(saveUser({ ...user.data }));
+        setLinkVisits(user.data.linkvisits);
+       
+          setMessages([...user.data.msgs]);
+      
+        dispatch(setLoader(false));
+        setSharelink(
+          `${process.env.REACT_APP_URL}/sendmsg/${user.data._id}`
+        );
+      }
+    })
+    .catch((err) => {
+      if (err.response.status === 401) {
+        window.localStorage.removeItem("opentalk");
+        setTimeout(() => {
+          navigate("/home");
+        }, 2000);
+      }
+      console.error(err);
+    });
+};
+
+const refreshData=()=>{
+  const userauthdata = JSON.parse(window.localStorage.getItem("opentalk"));
+  if (userauthdata != null) {
+    userdatafetch(
+      `${process.env.REACT_APP_API_URL}/user/${userauthdata._id}/${userauthdata.authcode}`
+    );
+  } else {
+    navigate("/home");
+  }
+}
+
+useEffect(()=>{
+  refreshData();
+  // const apiCall = setInterval(()=>{
+  //   refreshData();
+  // },20000)
+  // return()=>{
+  //   clearInterval(apiCall)
+  // }
+},[refresh])
+
   const getStatvalue = (value) => {
     if (value > 99 && value < 1000) return value;
     if (value > 999 && value < 9999999) {
@@ -179,7 +194,7 @@ function Dashboard() {
         <div className="msglist flex flex-col p-1">
           {Messages.map((msg, idx) => {
             return (
-              <div className="dashtab-1 card my-1  flex flex-row justify-between w-full p-2 minheight items-center bg-gray-light rounded-xl">
+              <div  className="dashtab-1 card my-1  flex flex-row justify-between w-full p-2 minheight items-center bg-gray-light rounded-xl">
                 <div className="message text-1">{msg.text}</div>
                 <div className="msgext flex flex-col-reverse w-10  h-full justify-between ">
                   <div className="chatbtn ml-auto" ><TbMessageShare size={20} className='icons mx-2' onClick={()=>handlePTPmseeage(userdata._id, msg.uid)}/></div>

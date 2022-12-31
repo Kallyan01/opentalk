@@ -1,16 +1,31 @@
-import React from "react";
+import React, {useRef} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { clearChatroom } from "../../../store/features/siteControll";
+import io from "socket.io-client";
 import "../../../css/Chatarea/chat.css";
+import { useEffect,useState } from "react";
+const socket = io.connect("http://192.168.0.103:5000",{
+  query: {
+    userId: '12345'
+  }});
+
 function Index() {
   const dispatch = useDispatch();
+  const msgAreaRef = useRef(null);
   const chatbox = useSelector((state) => state.sitecontrol.chatArea);
-  console.log(chatbox);
+
+
+
+  const scrollToBottom = () => {
+    msgAreaRef.current?.scrollIntoView({ behavior: "smooth" })
+    console.log(msgAreaRef.current?.scrollIntoView({ behavior: "smooth" }))
+  }
+
   const closechat = () => {
     dispatch(clearChatroom());
   };
-  const uid = 123
-  const msgs = [
+  const uid = 123;
+  const [msgs,setMsgs] = useState([
     {
       uid: 123,
       text: "Hi i am kallyan",
@@ -18,32 +33,39 @@ function Index() {
     {
       uid: 223,
       text: "Hello ! Kallyan , alock this side",
-    },
-    {
+    }
+  ])
+  const [Userscount, setUserscount] = useState();
+  const [message,setMessage] = useState();
+  const sendMsg = (text) => {
+    console.log("sent")
+    socket.emit("message", { message: message });
+    console.log(msgs)
+    let arr = msgs ;
+    arr.push({
       uid: 123,
-      text: "I have a question ! can i ask?",
-    },
-    {
+      text: message
+    })
+    setMsgs(arr)
+    setMessage("")
+    scrollToBottom();
+  };
+
+  useEffect(() => {
+    socket.on("receive_message", (data) => {
+      scrollToBottom();
+      let arr = msgs ;
+    arr.push({
       uid: 223,
-      text: "Yes ! Kallyan please",
-    },
-    {
-      uid: 123,
-      text: "I wanted to beacome a fullstack engineer what should be my path",
-    },
-    {
-      uid: 223,
-      text: "Oh! so see this things depends time to time so , can we have a call to discuss about this ,in chat it would be bit difficult to discuss all the things ",
-    },
-    {
-      uid: 123,
-      text: "Yes ! sure",
-    },
-    {
-      uid: 123,
-      text: "Here is my No - 7044580949",
-    },
-  ];
+      text: data
+    })
+    setMsgs(arr)
+    });
+    socket.on("users", (data) => {
+      setUserscount(data);
+    });
+  }, [socket]);
+
   return (
     <>
       {chatbox.status && (
@@ -56,36 +78,42 @@ function Index() {
         <h1>hello chat{chatbox.roomid}</h1> */}
           <div className="header flex">
             <div className="backbtn px-5" onClick={closechat}>
-                   back   
+              back
             </div>
             <div className="avatar">
-              <p>{chatbox.roomid}</p>
+              {/* <p>{chatbox.roomid}</p> */}
+              <p>{Userscount}</p>
             </div>
-            <div className="uname">
-
-            </div> 
+            <div className="uname"></div>
           </div>
-          <div className="msgbody ">
+          <div className="msgbody pb-[55px] " ref={msgAreaRef}>
             {/* <div className="msg float-right clear-both right">Hi !</div>
            <div className="msg float-left clear-both left">Hello my friend</div> */}
             {msgs.map((cont, idx) => {
-              if (uid == cont.uid)
-               return <div className="msg float-right clear-both right">
-                  {cont.text}
-                </div>;
+              if (uid === cont.uid)
+                return (
+                  <div className="msg float-right clear-both right">
+                    {cont.text}
+                  </div>
+                );
               else
-               return <div className="msg float-left clear-both left">
-                  {cont.text}
-                </div>;
+                return (
+                  <div className="msg float-left clear-both left">
+                    {cont.text}
+                  </div>
+                );
             })}
           </div>
           <div className="msginputbox flex fixed bottom-0 md:static left-0">
             <div className="textinputarea">
-              <input type="text" placeholder="hi" />
+              <input type="text" placeholder="Enter your message " value={message} onChange={(e)=>{setMessage(e.target.value)}} />
             </div>
-            <div className="textsendarea flex  justify-center items-center">
+            <button
+              className="textsendarea flex  justify-center items-center"
+              onClick={()=> sendMsg(message)}
+            >
               SEND
-            </div>
+            </button>
           </div>
         </div>
       )}
