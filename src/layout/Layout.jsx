@@ -19,7 +19,7 @@ function Layout() {
             <img src={coreimg} alt="" height={300} width={500} />
           </div>
           <div className="w-full flex justify-center align-middle p-5 mt-10">
-            <p className="uppercase font-bold text-3xl">Welcome To OpenTalk</p>
+            <p className="uppercase font-bold text-3xl">Welcome To OpenTlk</p>
           </div>
         </div>
         <div className="right w-full md:w-1/3">

@@ -159,7 +159,7 @@ useEffect(()=>{
         <div className="shareIcon flex flex-row w-full justify-center items-center">
           <a
             target="_blank"
-            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`Want to send ${userdata.name} a secret message anonymously send it here via this link https://opentlk.ml/sendmsg/${userdata._id}`)}&amp;src=sdkpreparse`}
+            href={`https://www.facebook.com/sharer/sharer.php?u=https://opentlk.ml/sendmsg/${userdata._id}`}
             className="fb-xfbml-parse-ignore"
           >
            <FaFacebook size={25} className='icons mx-2'/>
@@ -192,7 +192,7 @@ useEffect(()=>{
           </p>
         </div>
         <div className="msglist flex flex-col p-1">
-          {Messages.map((msg, idx) => {
+          {Messages.reverse().map((msg, idx) => {
             return (
               <div  className="dashtab-1 card my-1  flex flex-row justify-between w-full p-2 minheight items-center bg-gray-light rounded-xl">
                 <div className="message text-1">{msg.text}</div>
