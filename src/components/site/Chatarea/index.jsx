@@ -4,18 +4,26 @@ import { clearChatroom } from "../../../store/features/siteControll";
 import io from "socket.io-client";
 import "../../../css/Chatarea/chat.css";
 import { useEffect,useState } from "react";
-const socket = io.connect("http://192.168.0.103:5000",{
-  query: {
-    userId: '12345'
-  }});
 
 function Index() {
   const dispatch = useDispatch();
   const msgAreaRef = useRef(null);
   const chatbox = useSelector((state) => state.sitecontrol.chatArea);
-
-
-
+  const user = useSelector((state) => state.userdet)
+  const [socket, setSocket] = useState(null);
+  useEffect(() => {
+    const id = user._id
+    if(!socket && id)
+    {
+      const socketio = io.connect(process.env.REACT_APP_API_URL,{
+        // autoConnect: false, //use socket.connect()
+        query: {
+          userId: id,
+        }});
+        setSocket(socketio);
+    }
+  },[user])
+  
   const scrollToBottom = () => {
     msgAreaRef.current?.scrollIntoView({ behavior: "smooth" })
     console.log(msgAreaRef.current?.scrollIntoView({ behavior: "smooth" }))
@@ -39,7 +47,7 @@ function Index() {
   const [message,setMessage] = useState();
   const sendMsg = (text) => {
     console.log("sent")
-    socket.emit("message", { message: message });
+    socket?.emit("message", { message: message });
     console.log(msgs)
     let arr = msgs ;
     arr.push({
@@ -52,7 +60,7 @@ function Index() {
   };
 
   useEffect(() => {
-    socket.on("receive_message", (data) => {
+    socket?.on("receive_message", (data) => {
       scrollToBottom();
       let arr = msgs ;
     arr.push({
@@ -61,7 +69,7 @@ function Index() {
     })
     setMsgs(arr)
     });
-    socket.on("users", (data) => {
+    socket?.on("users", (data) => {
       setUserscount(data);
     });
   }, [socket]);

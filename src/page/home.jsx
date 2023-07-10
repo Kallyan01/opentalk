@@ -63,10 +63,13 @@ function Home() {
       }
     });
   }
-
+  const opn = localStorage.getItem("opentalk")
+  console.log(opn)
   const handleCreate = async (event) => {
     dispatch(setLoader(true))
     event.preventDefault();
+    
+
     CreateUser(`${process.env.REACT_APP_API_URL}/user/create`, User)
     .then((data) => {
       dispatch(saveUser({ ...data.data }));
